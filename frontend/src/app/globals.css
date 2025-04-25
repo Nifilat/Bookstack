@@ -3,10 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #1a1a1a;        
-  --accent: #facc15;         
-  --card: #ffffff;           
-  --text-light: #e5e5e5;
 }
 
 @theme inline {
@@ -20,11 +16,6 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-
-    --primary: #0a0a0a;
-    --accent: #facc15;
-    --card: #171717;
-    --text-light: #ededed;
   }
 }
 
