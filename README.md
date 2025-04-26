@@ -71,7 +71,7 @@ A full-stack web application that provides personalized book recommendations to 
 ## 🌐 Access the Application
 
 - Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend API: [http://localhost:8000](http://localhost:8000)
+- Backend API: [https://bookstack-be.vercel.app/](https://bookstack-be.vercel.app/)
 
 ## 📁 Project Structure
 
