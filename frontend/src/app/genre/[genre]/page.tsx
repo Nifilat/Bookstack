@@ -3,7 +3,7 @@ import BookList from '@/app/components/BookList';
 import BackButton from '@/app/components/BackButton';
 import { notFound } from 'next/navigation';
 
-type PageProps<T = {}> = {
+type PageProps<T = Record<string, unknown>> = {
   params: T;
   searchParams?: Record<string, string | string[] | undefined>;
 };
