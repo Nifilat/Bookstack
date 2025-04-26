@@ -3,11 +3,14 @@ import BookList from '@/app/components/BookList';
 import BackButton from '@/app/components/BackButton';
 import { notFound } from 'next/navigation';
 
+type PageProps<T = {}> = {
+  params: T;
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
 export default async function GenrePage({ 
   params 
-}: { 
-  params: { genre: string } 
-}) {
+}: PageProps<{ genre: string }>) {
     const rawGenre = params.genre;
     const genre = rawGenre.charAt(0).toUpperCase() + rawGenre.slice(1);
     
