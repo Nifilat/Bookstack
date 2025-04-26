@@ -44,3 +44,9 @@ def search_books(request):
     )
     serializer = BookSerializer(books.distinct(), many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def list_genres(request):
+    # get distinct genres sorted alphabetically
+    genres = Book.objects.order_by('genre').values_list('genre', flat=True).distinct()
+    return Response(genres)
