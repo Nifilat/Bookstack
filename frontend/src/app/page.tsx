@@ -1,8 +1,8 @@
+import Image from 'next/image';
 import SearchBar from './components/SearchBar';
 import { Book } from '../../types';
-import BookList from './components/BookList';
 import Link from 'next/link';
-import { fetchBooks, fetchBooksByGenre } from '../../lib/api';
+import { fetchBooksByGenre } from '../../lib/api';
 
 export default async function Home() {
   // Fetch mystery books from API
@@ -11,66 +11,40 @@ export default async function Home() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        {/* <p className="text-xs text-gray-500">9:41</p>
-        <div className="flex items-center space-x-1">
-          <div className="h-2.5 w-4 bg-gray-800 rounded-sm"></div>
-          <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
-          <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
-        </div> */}
+        
       </div>
       
       <SearchBar />
       
-      {/* <div className="mt-12 relative">
-        <div className="flex justify-center md:justify-start flex-wrap gap-4 mb-4">
-            {mysteryBooks.slice(0, 3).map((book: Book, index: number) => (
-            <div 
-              key={book.id} 
-              className="relative" 
-              style={{ 
-              top: index === 0 ? '10px' : index === 1 ? '0' : '5px',
-              left: index === 0 ? '0' : index === 1 ? '50px' : '25px',
-              zIndex: 3 - index
-              }}
-            >
-              <img 
-              src={book.cover_image || `/api/placeholder/150/220`} 
-              alt={book.title}
-              className="w-24 h-36 object-cover rounded-md shadow-lg"
-              />
-            </div>
-            ))}
-
-  
-        </div> */}
+      
   <div className="mt-12 relative">
   <h2 className="text-lg font-medium mb-6">TOP MYSTERY BOOKS</h2>
   
   {/* Desktop and tablet view */}
   <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    {mysteryBooks.map((book: Book, index: number) => (
+    {mysteryBooks.map((book: Book) => (
       <div key={book.id} className="group relative">
         <div className="relative">
-          <img 
+          <Image 
             src={book.cover_image || `/api/placeholder/220/320`} 
             alt={book.title}
+            width={220}
+            height={320}
             className="w-full h-auto aspect-[2/3] object-cover rounded-md shadow-lg transition-transform duration-300 group-hover:scale-105"
           />
           {/* Rating badge */}
           <div className="absolute top-0 right-0 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md">
-                  {/* <svg className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg> */}
-                  <span className="text-sm font-medium">{book.rating || '4.9'}</span>
-                </div>
+            
+            <span className="text-sm font-medium">{book.rating || '4.9'}</span>
+          </div>
           
           {/* Hover overlay with quick actions */}
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 w-full">
             <div className="w-full">
               <div className="flex space-x-2">
-                <Link href={`/book/${book.id}`} className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                  <span className="text-black">→</span>
-                </Link>
+          <Link href={`/book/${book.id}`} className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+            <span className="text-black">→</span>
+          </Link>
               </div>
             </div>
           </div>
@@ -98,20 +72,22 @@ export default async function Home() {
             transform: `rotate(${index === 1 ? '-5deg' : index === 2 ? '5deg' : '0deg'})`
           }}
         >
-          <div className="relative">
-            <img 
+            <div className="relative">
+            <Image 
               src={book.cover_image || `/api/placeholder/150/220`} 
               alt={book.title}
+              width={96} // 24 * 4 (tailwind width in pixels)
+              height={144} // 36 * 4 (tailwind height in pixels)
               className="w-24 h-36 object-cover rounded-md shadow-lg"
             />
             {/* Rating badge */}
             <div className="absolute top-0 right-0 bg-white rounded-full w-7 h-7 flex items-center justify-center shadow-md">
-                  {/* <svg className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg> */}
-                  <span className="text-xs font-medium">{book.rating || '4.9'}</span>
-                </div>
-          </div>
+                {/* <svg className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"></svg>
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg> */}
+                <span className="text-xs font-medium">{book.rating || '4.9'}</span>
+              </div>
+            </div>
         </div>
       ))}
     </div>

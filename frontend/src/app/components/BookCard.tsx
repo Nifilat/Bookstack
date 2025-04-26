@@ -17,21 +17,15 @@ export default function BookCard({ id, title, author, coverImage, rating, compac
       <div className="relative">
         {rating && <Rating score={rating} />}
         {/* Use real cover image if available, fallback to placeholder */}
-        {coverImage.startsWith('http') ? (
-          <div className="relative w-full h-48 sm:h-64">
-            <img 
-              src={coverImage}
-              alt={title}
-              className={`${compact ? 'w-full sm:w-32 h-48' : 'w-full h-64'} object-cover rounded-md shadow-lg`}
-            />
-          </div>
-        ) : (
-          <img 
-            src={`/api/placeholder/180/280`} 
+        <div className={`relative ${compact ? 'w-full sm:w-32 h-48' : 'w-full h-64'}`}>
+          <Image
+            src={coverImage.startsWith('http') ? coverImage : `/api/placeholder/180/280`}
             alt={title}
-            className={`${compact ? 'w-full sm:w-32 h-48' : 'w-full h-64'} object-cover rounded-md shadow-lg`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-md shadow-lg"
           />
-        )}
+        </div>
       </div>
       {!compact && (
         <div className="mt-2">

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '../components/BackButton';
 import { fetchRecommendations } from '../../../lib/api';
@@ -21,14 +22,15 @@ export default async function RecommendationsPage() {
             <div className={`flex flex-col ${index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'} gap-6`}>
               {/* Main book cover */}
               <div className="relative w-full sm:w-1/3">
-                <img 
+                <Image 
                   src={book.cover_image || `/api/placeholder/300/450`} 
                   alt={book.title}
+                  width={300}
+                  height={450}
                   className="w-full h-auto object-cover rounded-md shadow-lg"
                 />
                 {/* Rating badge */}
                 <div className="absolute top-0 right-0 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md">
-                  
                   <span className="text-sm font-medium">{book.rating || '4.9'}</span>
                 </div>
               </div>

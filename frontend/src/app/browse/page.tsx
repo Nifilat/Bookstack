@@ -18,19 +18,13 @@ const COMMON_GENRES = [
 ];
 
 export default async function BrowsePage() {
-  let books = [];
-  let genres = [];
-  let featuredBooks: Record<string, Book[]> = {};
+let genres = [];
+const featuredBooks: Record<string, Book[]> = {};
 
   try {
     // Fetch all books
-    books = await fetchBooks();
+    // books = await fetchBooks();
     
-    // Extract unique genres from books
-    // const genresFromBooks = Array.isArray(books) 
-    //   ? [...new Set(books.map(book => book.genre))] 
-    //   : [];
-    // genres = genresFromBooks.length > 0 ? genresFromBooks : COMMON_GENRES;
     genres = await fetchGenres();
     
     // Get featured books for each genre (up to 4 per genre)
@@ -91,7 +85,7 @@ export default async function BrowsePage() {
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {(books as any[]).map((book) => (
+              {books.map((book: Book) => (
                 <BookCard
                   key={book.id}
                   id={book.id.toString()}

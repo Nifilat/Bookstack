@@ -1,4 +1,4 @@
-import { fetchBooks, fetchBooksByGenre } from '../../../../lib/api';
+import { fetchBooksByGenre } from '../../../../lib/api';
 import BookList from '@/app/components/BookList';
 import BackButton from '@/app/components/BackButton';
 import { notFound } from 'next/navigation';
@@ -26,7 +26,7 @@ export default async function GenrePage({
         <BookList books={books} title={`Top ${genre} Books`} />
       </div>
     );
-  } catch (error) {
+  } catch {
     notFound();
   }
 }

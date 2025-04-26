@@ -4,6 +4,7 @@ import BackButton from '@/app/components/BackButton';
 import React from 'react';
 import { Book } from '../../../../types';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { fetchBookById } from '../../../../lib/api';
 import { notFound } from 'next/navigation';
 
@@ -37,11 +38,6 @@ export default function BookPage({ params }: { params: Promise<{ id: string }> }
     setIsDescriptionExpanded(!isDescriptionExpanded);
   };
 
-  // Function to truncate text
-const truncateText = (text: string, maxLength: number = 150): string => {
-    if (!text || text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '...';
-};
 
 return (
     <div className="max-w-md mx-auto p-6">
@@ -51,9 +47,11 @@ return (
       
       <div className="flex flex-col items-center mb-8">
         <div className="relative w-48 md:w-56 aspect-[2/3] rounded-md overflow-hidden mb-6">
-          <img 
+          <Image 
             src={book.cover_image || `/api/placeholder/300/450`} 
             alt={book.title}
+            width={300}
+            height={450}
             className="w-full h-full object-contain"
           />
           <div className="absolute top-0 right-0 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md">
