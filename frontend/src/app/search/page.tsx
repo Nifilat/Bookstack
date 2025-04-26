@@ -1,34 +1,29 @@
 import { searchBooks } from '../../../lib/api';
-import Link from 'next/link';
-import BookList from '../components/BookList';
+import BookList from '@/app/components/BookList';
+import BackButton from '@/app/components/BackButton';
+import { notFound } from 'next/navigation';
 
 export default async function SearchPage({ 
   searchParams 
-}: { 
-  searchParams: { q: string } 
+}: {
+  searchParams: Promise<{ q: string }>;
 }) {
-  const query = searchParams.q || '';
-  const books = await searchBooks(query);
-
-  return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex items-center mb-6">
-        <Link href="/" className="mr-4">
-          <span className="text-xl">←</span>
-        </Link>
-        <h1 className="text-xl font-medium">Search Results for &quot;{query}&quot;</h1>
-      </div>
-      
-      {books.length > 0 ? (
-        <BookList books={books} title={`${books.length} Results`} />
-      ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-600">No books found for &quot;{query}&quot;</p>
-          <Link href="/" className="mt-4 inline-block text-blue-600">
-            Return to home
-          </Link>
+  const { q } = await searchParams;
+  
+  try {
+    const books = await searchBooks(q);
+    
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="fflex items-center justify-between mb-6">
+          <BackButton />
+          <h1 className="text-xl font-medium">Search Results for &quot;{q}&quot;</h1>
         </div>
-      )}
-    </div>
-  );
+        
+        <BookList books={books} title={`Search Results for "${q}"`} />
+      </div>
+    );
+  } catch {
+    notFound();
+  }
 }
