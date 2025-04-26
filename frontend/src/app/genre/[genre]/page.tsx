@@ -1,6 +1,6 @@
 import { fetchBooks, fetchBooksByGenre } from '../../../../lib/api';
 import BookList from '@/app/components/BookList';
-import Link from 'next/link';
+import BackButton from '@/app/components/BackButton';
 import { notFound } from 'next/navigation';
 
 export default async function GenrePage({ 
@@ -8,18 +8,18 @@ export default async function GenrePage({
 }: { 
   params: { genre: string } 
 }) {
-  const { genre: rawGenre } = params;
-  const genre = rawGenre.charAt(0).toUpperCase() + rawGenre.slice(1);
+    const rawGenre = params.genre;
+    const genre = rawGenre.charAt(0).toUpperCase() + rawGenre.slice(1);
+    
   
   try {
     const books = await fetchBooksByGenre(genre);
+    // console.log("Fetched books:", books);
     
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <div className="flex items-center mb-6">
-          <Link href="/" className="mr-4">
-            <span className="text-xl">←</span>
-          </Link>
+        <div className="fflex items-center justify-between mb-6">
+        <BackButton />
           <h1 className="text-xl font-medium">{genre} Books</h1>
         </div>
         

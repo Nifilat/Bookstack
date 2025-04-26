@@ -1,49 +1,106 @@
-import Rating from '@/app/components/Rating';
-import Link from 'next/link';
+'use client';
+
+import BackButton from '@/app/components/BackButton';
+import React from 'react';
+import { Book } from '../../../../types';
+import { useState, useEffect } from 'react';
 import { fetchBookById } from '../../../../lib/api';
 import { notFound } from 'next/navigation';
 
-export default async function BookPage({ params }: { params: { id: string } }) {
-  let book;
-  try {
-    book = await fetchBookById(params.id);
-  } catch (error) {
-    notFound();
+export default function BookPage({ params }: { params: Promise<{ id: string }> }) {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [book, setBook] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(true);
+  const unwrappedParams = React.use(params);
+
+  // Fetch book data on component mount
+  useEffect(() => {
+    const getBook = async () => {
+      try {
+        const bookData = await fetchBookById(unwrappedParams.id);
+        setBook(bookData);
+      } catch (error) {
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    getBook();
+  }, [unwrappedParams.id]);
+
+  if (loading || !book) {
+    return <div className="max-w-2xl mx-auto p-6">Loading...</div>;
   }
 
-  return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <Link href="/" className="text-xl">
-          ←
-        </Link>
-        {/* <p className="text-xs text-gray-500">9:41</p>
-        <div className="flex items-center space-x-1">
-          <div className="h-2.5 w-4 bg-gray-800 rounded-sm"></div>
-          <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
-          <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
-        </div> */}
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
+
+  // Function to truncate text
+const truncateText = (text: string, maxLength: number = 150): string => {
+    if (!text || text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+};
+
+return (
+    <div className="max-w-md mx-auto p-6">
+      <div className="fflex items-center justify-between mb-6">
+      <BackButton />
       </div>
       
-      <div className="relative mb-8">
-        <img 
-          src={book.cover_image || `/api/placeholder/300/450`} 
-          alt={book.title}
-          className="w-full h-96 object-cover rounded-md"
-        />
-        <Rating score={book.rating} />
+      <div className="flex flex-col items-center mb-8">
+        <div className="relative w-48 md:w-56 aspect-[2/3] rounded-md overflow-hidden mb-6">
+          <img 
+            src={book.cover_image || `/api/placeholder/300/450`} 
+            alt={book.title}
+            className="w-full h-full object-contain"
+          />
+          <div className="absolute top-0 right-0 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md">
+            <span className="text-sm font-medium">{book.rating || '4.9'}</span>
+          </div>
+        </div>
       </div>
       
       <div className="text-center mb-8">
         <p className="text-gray-600 mb-2">{book.author}</p>
-        <h1 className="text-3xl font-bold mb-6">{book.title}</h1>
-        <p className="text-gray-800">{book.description}</p>
+        <h1 className="text-2xl font-medium mb-6">{book.title}</h1>
+        
+        {/* Description container with conditional height and fade effect */}
+        <div className="relative">
+          <div 
+            className={`text-gray-800 text-left mx-auto max-w-prose ${
+              isDescriptionExpanded ? '' : 'max-h-32 overflow-hidden'
+            }`}
+          >
+            <p className="leading-relaxed">{book.description}</p>
+          </div>
+          
+          {/* Fade effect - only shows when description is collapsed */}
+          {!isDescriptionExpanded && (
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          )}
+        </div>
       </div>
       
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
-        <div className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center">
-          <span className="text-white">···</span>
-        </div>
+        <button 
+          onClick={toggleDescription}
+          className="h-12 w-12 rounded-full bg-gray-900 flex items-center justify-center shadow-lg"
+          aria-label={isDescriptionExpanded ? "Show less" : "Show more"}
+        >
+          {isDescriptionExpanded ? (
+            // Less/collapse icon
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+            </svg>
+          ) : (
+            // More/expand icon
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );

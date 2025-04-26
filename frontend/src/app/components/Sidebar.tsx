@@ -50,9 +50,10 @@ export default function Sidebar() {
       {/* Sidebar - conditionally rendered */}
       <div className={`${
         isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
-      } fixed sm:relative z-40 w-64 bg-gray-900 text-white h-screen transition-transform duration-300 ease-in-out`}>
+      } fixed sm:sticky top-0 z-40 w-64 bg-gray-900 text-white h-screen transition-transform duration-300 ease-in-out`}>
         <div className="p-6 h-full flex flex-col">
-          <div className="flex justify-end mb-12">
+          {/* Only show close button on small screens */}
+          <div className="flex justify-end mb-12 sm:hidden">
             <button 
               onClick={() => setIsOpen(false)} 
               className="rounded-full border border-gray-700 p-2"

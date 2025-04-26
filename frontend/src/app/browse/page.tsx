@@ -1,4 +1,4 @@
-import { fetchBooks, fetchBooksByGenre } from '../../../lib/api';
+import { fetchBooks, fetchBooksByGenre, fetchGenres } from '../../../lib/api';
 import BookCard from '../components/BookCard';
 import Link from 'next/link';
 import { Book } from '../../../types';
@@ -27,10 +27,11 @@ export default async function BrowsePage() {
     books = await fetchBooks();
     
     // Extract unique genres from books
-    const genresFromBooks = Array.isArray(books) 
-      ? [...new Set(books.map(book => book.genre))] 
-      : [];
-    genres = genresFromBooks.length > 0 ? genresFromBooks : COMMON_GENRES;
+    // const genresFromBooks = Array.isArray(books) 
+    //   ? [...new Set(books.map(book => book.genre))] 
+    //   : [];
+    // genres = genresFromBooks.length > 0 ? genresFromBooks : COMMON_GENRES;
+    genres = await fetchGenres();
     
     // Get featured books for each genre (up to 4 per genre)
     for (const genre of genres) {
