@@ -6,7 +6,7 @@ import { fetchBooks, fetchBooksByGenre } from '../../lib/api';
 
 export default async function Home() {
   // Fetch mystery books from API
-  const mysteryBooks = await fetchBooksByGenre('Mystery');
+  const mysteryBooks = Array.isArray(await fetchBooksByGenre('Mystery')) ? await fetchBooksByGenre('Mystery') : [];
   
   return (
     <div className="p-6 max-w-4xl mx-auto">

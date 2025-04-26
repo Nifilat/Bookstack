@@ -1,4 +1,4 @@
-import { fetchBooksByGenre } from '../../../../lib/api';
+import { fetchBooks, fetchBooksByGenre } from '../../../../lib/api';
 import BookList from '@/app/components/BookList';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -8,7 +8,8 @@ export default async function GenrePage({
 }: { 
   params: { genre: string } 
 }) {
-  const genre = params.genre.charAt(0).toUpperCase() + params.genre.slice(1);
+  const { genre: rawGenre } = params;
+  const genre = rawGenre.charAt(0).toUpperCase() + rawGenre.slice(1);
   
   try {
     const books = await fetchBooksByGenre(genre);

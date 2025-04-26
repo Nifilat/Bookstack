@@ -9,7 +9,8 @@ interface BookListProps {
   compact?: boolean;
 }
 
-export default function BookList({ books, title, viewMoreLink, compact = false }: BookListProps) {
+export default function BookList({ books = [], title, viewMoreLink, compact = false }: BookListProps) {
+  books = Array.isArray(books) ? books : [];
   if (books.length === 0) {
     return <div className="text-center py-8">No books found</div>;
   }

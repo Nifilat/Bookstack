@@ -16,11 +16,11 @@ export default async function RecommendationsPage() {
           </Link>
           <h1 className="text-xl font-medium">RECOMMENDATIONS</h1>
         </div>
-        <div className="flex items-center space-x-1">
+        {/* <div className="flex items-center space-x-1">
           <div className="h-2.5 w-4 bg-gray-800 rounded-sm"></div>
           <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
           <div className="h-2.5 w-2.5 bg-gray-800 rounded-full"></div>
-        </div>
+        </div> */}
       </div>
       
       <div className="mt-8">
