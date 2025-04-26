@@ -20,7 +20,7 @@ export default function BookPage({ params }: { params: Promise<{ id: string }> }
       try {
         const bookData = await fetchBookById(unwrappedParams.id);
         setBook(bookData);
-      } catch (error) {
+      } catch {
         notFound();
       } finally {
         setLoading(false);

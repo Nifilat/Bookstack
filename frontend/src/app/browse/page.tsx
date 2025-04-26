@@ -1,4 +1,4 @@
-import { fetchBooks, fetchBooksByGenre, fetchGenres } from '../../../lib/api';
+import { fetchBooksByGenre, fetchGenres } from '../../../lib/api';
 import BookCard from '../components/BookCard';
 import Link from 'next/link';
 import { Book } from '../../../types';
