@@ -70,7 +70,7 @@ A full-stack web application that provides personalized book recommendations to 
 
 ## 🌐 Access the Application
 
-- Frontend: [http://localhost:3000](http://localhost:3000)
+- Frontend: [https://bookstack-cyan.vercel.app/](https://bookstack-cyan.vercel.app/)
 - Backend API: [https://bookstack-be.vercel.app/](https://bookstack-be.vercel.app/)
 
 ## 📁 Project Structure
